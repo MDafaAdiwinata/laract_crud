@@ -44,7 +44,7 @@ export default function Products() {
     // Handle Delete
     const handleDelete = (id_product: number, name: string) => {
         if ( confirm( `Are you sure you want to delete the product ${id_product} . ${name}?`, ) ) {
-            destroy(`/products/${id_product}`);
+            destroy(route('products.destroy', id_product));
         }
     };
 
