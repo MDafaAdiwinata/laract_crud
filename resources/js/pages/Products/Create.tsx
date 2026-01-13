@@ -34,7 +34,7 @@ export default function Create() {
             <div className="m-4">
                 <form
                     onSubmit={handleSubmit}
-                    className="m-4 max-w-xl space-y-4"
+                    className="flex flex-col m-4 max-w-xl space-y-4"
                 >
                     <div className="flex flex-row gap-2 items-center justify-between mb-8">
                         <Link
@@ -113,7 +113,7 @@ export default function Create() {
                             }
                         ></Textarea>
                     </div>
-                    <Button className='mt-2' type="submit" disabled={processing}>
+                    <Button className='mt-2 ms-auto md:ms-0' type="submit" disabled={processing}>
                         Add Product
                     </Button>
                 </form>
