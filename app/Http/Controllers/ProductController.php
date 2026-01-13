@@ -31,6 +31,29 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('message', 'Product created successfully.');
     }
 
+    // Form Edit Data
+    public function edit(Product $product) {
+        return Inertia::render('Products/Edit', compact('product'));
+    }
+
+    // Update Data
+    public function update(Request $request, Product $product) {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        // Update to Database
+        $product->update([
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+            'description' => $request->input('description'),
+        ]);
+
+        return redirect()->route('products.index')->with('message', 'Product updated Successfully');
+    }
+
     // Delete data
     public function destroy(Product $product) {
         $product->delete();
