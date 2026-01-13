@@ -43,8 +43,12 @@ export default function Products() {
 
     // Handle Delete
     const handleDelete = (id_product: number, name: string) => {
-        if ( confirm( `Are you sure you want to delete the product ${id_product} . ${name}?`, ) ) {
-            destroy(`/products/${id_product}`);
+        if (
+            confirm(
+                `Are you sure you want to delete the product ${id_product} . ${name}?`,
+            )
+        ) {
+            destroy(route('products.destroy', id_product));
         }
     };
 
@@ -52,22 +56,18 @@ export default function Products() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Products" />
 
-            <div className="m-4">
+            <div className="m-6">
                 {flash?.message && (
-                    <Alert className="mb-4">
+                    <Alert className="mb-6">
                         <CheckCircle2Icon />
                         <AlertTitle>Success!</AlertTitle>
                         <AlertDescription>{flash.message}</AlertDescription>
                     </Alert>
                 )}
 
-                <Link href={route('products.create')}>
-                    <Button>Create a Product</Button>
-                </Link>
-
                 {/* Show Data - Tables */}
                 {products.length > 0 ? (
-                    <Table className="mt-8">
+                    <Table className="">
                         <TableHeader>
                             <TableRow>
                                 <TableHead>ID</TableHead>
@@ -86,7 +86,18 @@ export default function Products() {
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.description}</TableCell>
-                                    <TableCell className="text-center">
+                                    <TableCell className="space-x-2 text-center">
+                                        <Link
+                                            href={route(
+                                                'products.edit',
+                                                product.id_product,
+                                            )}
+                                            preserveState={false}
+                                        >
+                                            <Button className="cursor-pointer bg-yellow-600 transition duration-300 hover:bg-yellow-700 text-foreground">
+                                                Edit
+                                            </Button>
+                                        </Link>
                                         <Button
                                             disabled={processing}
                                             onClick={() =>
@@ -95,7 +106,7 @@ export default function Products() {
                                                     product.name,
                                                 )
                                             }
-                                            className="cursor-pointer bg-red-600 hover:bg-red-700"
+                                            className="cursor-pointer bg-red-600 transition duration-300 hover:bg-red-700 text-foreground"
                                         >
                                             Delete
                                         </Button>
@@ -107,6 +118,12 @@ export default function Products() {
                 ) : (
                     <p>No products found.</p>
                 )}
+
+                <Link href={route('products.create')}>
+                    <Button className="mt-6 cursor-pointer hover:bg-gray-600">
+                        Create a Product
+                    </Button>
+                </Link>
             </div>
         </AppLayout>
     );
