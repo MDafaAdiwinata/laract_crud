@@ -10,7 +10,8 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Products/Index', []);
+        $products = Product::lazy();
+        return Inertia::render('Products/Index', compact('products'));
     }
 
     public function create() {
@@ -28,5 +29,11 @@ class ProductController extends Controller
         Product::create($request->all());
 
         return redirect()->route('products.index')->with('message', 'Product created successfully.');
+    }
+
+    // Delete data
+    public function destroy(Product $product) {
+        $product->delete();
+        return redirect()->route('products.index')->with('message', 'Product deleted successfully.');
     }
 }
