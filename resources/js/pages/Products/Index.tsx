@@ -120,7 +120,7 @@ export default function Products() {
                 )}
 
                 <Link href={route('products.create')}>
-                    <Button className="mt-6 cursor-pointer hover:bg-gray-600">
+                    <Button className="mt-6 cursor-pointer">
                         Create a Product
                     </Button>
                 </Link>
