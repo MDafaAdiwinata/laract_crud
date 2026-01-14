@@ -23,7 +23,14 @@ class ProductController extends Controller
             'name' => 'required|string|max:100',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+        
+        // Image Logic Upload
+        $imagePath = null;
+        if ( $request->hasFile('image') ) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         // Insert data setelah di validasi
         Product::create($request->all());
