@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -68,6 +69,14 @@ class ProductController extends Controller
 
     // Delete data
     public function destroy(Product $product) {
+
+        // Jika image ada, maka hapus
+        if ($product->image) {
+            if (Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+        }
+
         $product->delete();
         return redirect()->route('products.index')->with('message', 'Product deleted successfully.');
     }
