@@ -33,7 +33,12 @@ class ProductController extends Controller
         }
 
         // Insert data setelah di validasi
-        Product::create($request->all());
+        Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'image' => $imagePath,
+        ]);
 
         return redirect()->route('products.index')->with('message', 'Product created successfully.');
     }

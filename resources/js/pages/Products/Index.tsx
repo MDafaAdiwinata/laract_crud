@@ -26,6 +26,7 @@ interface Product {
     name: string;
     price: number;
     description: string;
+    image?: string | null;
 }
 
 interface ProductsPageProps {
@@ -71,6 +72,7 @@ export default function Products() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>ID</TableHead>
+                                <TableHead>Image</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Price</TableHead>
                                 <TableHead>Description</TableHead>
@@ -83,10 +85,23 @@ export default function Products() {
                             {products.map((product) => (
                                 <TableRow>
                                     <TableCell>{product.id_product}</TableCell>
+                                    <TableCell width={100}>
+                                        {product.image ? (
+                                            <img
+                                                src={`/storage/${product.image}`}
+                                                alt={product.name}
+                                                className="h-18 w-18 rounded object-cover"
+                                            />
+                                        ) : (
+                                            <div className="flex h-16 w-16 items-center justify-center rounded bg-gray-200 text-xs text-gray-500">
+                                                No Image
+                                            </div>
+                                        )}
+                                    </TableCell>
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.description}</TableCell>
-                                    <TableCell className="space-x-2 text-center">
+                                    <TableCell className="gap-2 text-center flex flex-col md:flex-row items-center justify-center">
                                         <Link
                                             href={route(
                                                 'products.edit',
@@ -94,7 +109,7 @@ export default function Products() {
                                             )}
                                             preserveState={false}
                                         >
-                                            <Button className="cursor-pointer bg-yellow-600 transition duration-300 hover:bg-yellow-700 text-foreground">
+                                            <Button className="cursor-pointer bg-yellow-500 text-foreground transition duration-300 hover:bg-yellow-600">
                                                 Edit
                                             </Button>
                                         </Link>
@@ -106,7 +121,7 @@ export default function Products() {
                                                     product.name,
                                                 )
                                             }
-                                            className="cursor-pointer bg-red-600 transition duration-300 hover:bg-red-700 text-foreground"
+                                            className="cursor-pointer bg-red-500 text-foreground transition duration-300 hover:bg-red-600"
                                         >
                                             Delete
                                         </Button>
