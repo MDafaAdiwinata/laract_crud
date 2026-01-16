@@ -10,10 +10,9 @@ import { register } from '@/routes';
 
 interface LoginProps {
     status?: string;
-    canRegister: boolean;
 }
 
-export default function Login({ status, canRegister }: LoginProps) {
+export default function Login({ status }: LoginProps) {
     return (
         <AuthLayout
             title="Log in to your account"
