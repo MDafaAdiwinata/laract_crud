@@ -1,31 +1,31 @@
 import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
-import { register } from '@/routes';
 import { store } from '@/routes/login';
-import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
+import { register } from '@/routes';
 
 interface LoginProps {
     status?: string;
-    canResetPassword: boolean;
     canRegister: boolean;
 }
 
-export default function Login({
-    status,
-    canResetPassword,
-    canRegister,
-}: LoginProps) {
+export default function Login({ status, canRegister }: LoginProps) {
     return (
         <AuthLayout
             title="Log in to your account"
             description="Enter your email and password below to log in"
+            addLink={
+                <p className="text-center text-sm text-accent-foreground">
+                    Don't have an account?
+                    <Button asChild variant="link" className="px-1">
+                        <Link href={register()}>Create account</Link>
+                    </Button>
+                </p>
+            }
         >
             <Head title="Log in" />
 
@@ -36,9 +36,14 @@ export default function Login({
             >
                 {({ processing, errors }) => (
                     <>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                        <div className="mt-8 space-y-6">
+                            <div className="space-y-1.5">
+                                <Label
+                                    htmlFor="email"
+                                    className="block text-sm"
+                                >
+                                    Username
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -52,19 +57,10 @@ export default function Login({
                                 <InputError message={errors.email} />
                             </div>
 
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm"
-                                            tabIndex={5}
-                                        >
-                                            Forgot password?
-                                        </TextLink>
-                                    )}
-                                </div>
+                            <div className="space-y-1.5">
+                                <Label htmlFor="pwd" className="block text-sm">
+                                    Password
+                                </Label>
                                 <Input
                                     id="password"
                                     type="password"
@@ -77,35 +73,17 @@ export default function Login({
                                 <InputError message={errors.password} />
                             </div>
 
-                            <div className="flex items-center space-x-3">
-                                <Checkbox
-                                    id="remember"
-                                    name="remember"
-                                    tabIndex={3}
-                                />
-                                <Label htmlFor="remember">Remember me</Label>
-                            </div>
-
                             <Button
                                 type="submit"
-                                className="mt-4 w-full"
+                                className="mt-4 w-full cursor-pointer"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                Log in
+                                Sign In
                             </Button>
                         </div>
-
-                        {canRegister && (
-                            <div className="text-center text-sm text-muted-foreground">
-                                Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
-                                    Sign up
-                                </TextLink>
-                            </div>
-                        )}
                     </>
                 )}
             </Form>

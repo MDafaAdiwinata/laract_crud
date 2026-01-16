@@ -40,7 +40,7 @@ interface ProductsPageProps {
 
 export default function Products() {
     const { products, flash } = usePage<ProductsPageProps>().props;
-    const { delete: destroy, processing } = useForm();
+    const { delete: destroy, processing } = useForm({  });
 
     // Handle Delete
     const handleDelete = (id_product: number, name: string) => {
