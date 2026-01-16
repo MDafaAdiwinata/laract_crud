@@ -1,4 +1,4 @@
-import AppLogoIcon from '@/components/app-logo-icon';
+import { LogoIcon } from '@/components/logo';
 import { home } from '@/routes';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
@@ -7,38 +7,44 @@ interface AuthLayoutProps {
     name?: string;
     title?: string;
     description?: string;
+    addLink?: React.ReactNode;
 }
 
 export default function AuthSimpleLayout({
     children,
     title,
     description,
+    addLink,
 }: PropsWithChildren<AuthLayoutProps>) {
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-            <div className="w-full max-w-sm">
-                <div className="flex flex-col gap-8">
-                    <div className="flex flex-col items-center gap-4">
+        <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
+            <div className="m-auto h-fit w-full max-w-md overflow-hidden rounded-[calc(var(--radius)+.125rem)] border bg-muted shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]">
+                <div className="-m-px rounded-[calc(var(--radius)+.125rem)] border bg-card p-8 pb-6">
+                    <div className="text-center">
                         <Link
                             href={home()}
-                            className="flex flex-col items-center gap-2 font-medium"
+                            aria-label="go home"
+                            className="mx-auto block w-fit"
                         >
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                            </div>
-                            <span className="sr-only">{title}</span>
+                            <LogoIcon />
                         </Link>
-
-                        <div className="space-y-2 text-center">
-                            <h1 className="text-xl font-medium">{title}</h1>
-                            <p className="text-center text-sm text-muted-foreground">
-                                {description}
-                            </p>
-                        </div>
+                        <h1 className="mt-4 mb-1 text-xl font-semibold">
+                            {title}
+                        </h1>
+                        <p className="text-sm">{description}</p>
                     </div>
+
                     {children}
                 </div>
+
+                {/* Add Link */}
+
+                {addLink && (
+                    <div className="p-3">
+                        {addLink}
+                    </div>
+                )}
             </div>
-        </div>
+        </section>
     );
 }
