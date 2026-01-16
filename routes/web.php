@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
+    sleep(1);
     return Inertia::render('welcome', [
         'canRegister' => Features::enabled(Features::registration()),
     ]);

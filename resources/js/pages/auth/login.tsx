@@ -36,8 +36,8 @@ export default function Login({ status, canRegister }: LoginProps) {
             >
                 {({ processing, errors }) => (
                     <>
-                        <div className="mt-6 space-y-6">
-                            <div className="space-y-2">
+                        <div className="mt-8 space-y-6">
+                            <div className="space-y-1.5">
                                 <Label
                                     htmlFor="email"
                                     className="block text-sm"
@@ -57,7 +57,7 @@ export default function Login({ status, canRegister }: LoginProps) {
                                 <InputError message={errors.email} />
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="space-y-1.5">
                                 <Label htmlFor="pwd" className="block text-sm">
                                     Password
                                 </Label>
