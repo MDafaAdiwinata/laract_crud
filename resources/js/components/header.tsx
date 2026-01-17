@@ -7,7 +7,6 @@ import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
 import { type SharedData } from '@/types';
 import { dashboard, login, register } from '@/routes';
-import { spawn } from 'child_process';
 
 const menuItems = [
     { name: 'Home', href: '#link' },

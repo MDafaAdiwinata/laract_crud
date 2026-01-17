@@ -104,7 +104,6 @@ export default function HeroSection() {
                                 <TextEffect
                                     preset="fade-in-blur"
                                     speedSegment={0.3}
-                                    as="h1"
                                     className="mx-auto mt-8 max-w-4xl text-5xl text-balance max-md:font-semibold md:text-7xl lg:mt-16 xl:text-[5.25rem]"
                                 >
                                     Lorem ipsum dolor sit amet.
@@ -114,7 +113,6 @@ export default function HeroSection() {
                                     preset="fade-in-blur"
                                     speedSegment={0.3}
                                     delay={0.5}
-                                    as="p"
                                     className="mx-auto mt-8 max-w-2xl text-lg text-balance"
                                 >
                                     Highly customizable components for building

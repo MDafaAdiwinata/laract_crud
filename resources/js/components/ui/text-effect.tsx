@@ -1,14 +1,9 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'motion/react';
-import type {
-  TargetAndTransition,
-  Transition,
-  Variant,
-  Variants,
-} from 'motion/react';
+import type { Transition, Variant, Variants, TargetAndTransition } from 'motion/react';
+import { cn } from '@/lib/utils';
 
 export type PresetType = 'blur' | 'fade-in-blur' | 'scale' | 'fade' | 'slide';
 export type PerType = 'word' | 'char' | 'line';
@@ -16,7 +11,6 @@ export type PerType = 'word' | 'char' | 'line';
 export type TextEffectProps = {
   children: string;
   per?: PerType;
-  as?: keyof React.JSX.IntrinsicElements;
   variants?: {
     container?: Variants;
     item?: Variants;
@@ -52,16 +46,7 @@ const defaultContainerVariants: Variants = {
   },
 };
 
-const defaultItemVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-  exit: { opacity: 0 },
-};
-
-const presetVariants: Record<
-  PresetType,
-  { container: Variants; item: Variants }
-> = {
+const presetVariants: Record<PresetType, { container: Variants; item: Variants }> = {
   blur: {
     container: defaultContainerVariants,
     item: {
@@ -145,7 +130,8 @@ const createVariantsWithTransition = (
   };
 };
 
-const AnimationComponent = React.memo(
+
+const AnimationSegment = React.memo(
   ({
     segment,
     variants,
@@ -159,25 +145,20 @@ const AnimationComponent = React.memo(
   }) => {
     const content =
       per === 'line' ? (
-        <motion.span variants={variants} className='block'>
+        <motion.span variants={variants} className="block">
           {segment}
         </motion.span>
       ) : per === 'word' ? (
-        <motion.span
-          aria-hidden
-          variants={variants}
-          className='inline-block whitespace-pre'
-        >
+        <motion.span variants={variants} className="inline-block whitespace-pre">
           {segment}
         </motion.span>
       ) : (
-        <motion.span className='inline-block whitespace-pre'>
+        <motion.span className="inline-block whitespace-pre">
           {segment.split('').map((char, i) => (
             <motion.span
               key={i}
-              aria-hidden
               variants={variants}
-              className='inline-block whitespace-pre'
+              className="inline-block whitespace-pre"
             >
               {char}
             </motion.span>
@@ -200,12 +181,11 @@ const AnimationComponent = React.memo(
   }
 );
 
-AnimationComponent.displayName = 'AnimationComponent';
+AnimationSegment.displayName = 'AnimationSegment';
 
 export function TextEffect({
   children,
   per = 'word',
-  as = 'p',
   variants,
   className,
   preset = 'fade',
@@ -222,23 +202,13 @@ export function TextEffect({
 }: TextEffectProps) {
   const segments = splitText(children, per);
 
-  const getMotionComponent = (as: keyof React.JSX.IntrinsicElements) => {
-    return motion.create(as);
-  };
-
-  const MotionTag = React.useMemo(
-    () => getMotionComponent(as),
-    [as]
-  );
-
-  const baseVariants = presetVariants[preset];
-
+  const base = presetVariants[preset];
   const stagger = defaultStaggerTimes[per] / speedReveal;
-  const baseDuration = 0.3 / speedSegment;
+  const duration = 0.3 / speedSegment;
 
   const computedVariants = {
     container: createVariantsWithTransition(
-      variants?.container || baseVariants.container,
+      variants?.container || base.container,
       {
         staggerChildren: stagger,
         delayChildren: delay,
@@ -246,41 +216,39 @@ export function TextEffect({
       }
     ),
     item: createVariantsWithTransition(
-      variants?.item || baseVariants.item,
+      variants?.item || base.item,
       {
-        duration: baseDuration,
+        duration,
         ...segmentTransition,
       }
     ),
   };
 
   return (
-    <AnimatePresence mode='popLayout'>
+    <AnimatePresence mode="popLayout">
       {trigger && (
-        <MotionTag
-          initial='hidden'
-          animate='visible'
-          exit='exit'
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          exit="exit"
           variants={computedVariants.container}
           className={className}
-          onAnimationComplete={onAnimationComplete}
-          onAnimationStart={onAnimationStart}
           style={style}
+          onAnimationStart={onAnimationStart}
+          onAnimationComplete={onAnimationComplete}
         >
-          {per !== 'line' && (
-            <span className='sr-only'>{children}</span>
-          )}
+          {per !== 'line' && <span className="sr-only">{children}</span>}
 
           {segments.map((segment, index) => (
-            <AnimationComponent
-              key={`${per}-${index}`}
+            <AnimationSegment
+              key={`${index}-${segment}`}
               segment={segment}
               variants={computedVariants.item}
               per={per}
               segmentWrapperClassName={segmentWrapperClassName}
             />
           ))}
-        </MotionTag>
+        </motion.div>
       )}
     </AnimatePresence>
   );
