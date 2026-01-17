@@ -176,11 +176,9 @@ const hasTransition = (
 
 const createVariantsWithTransition = (
   baseVariants: Variants,
-  transition?: Transition & { exit?: Transition }
+  transition?: Transition
 ): Variants => {
   if (!transition) return baseVariants;
-
-  const { exit, ...mainTransition } = transition;
 
   return {
     ...baseVariants,
@@ -190,7 +188,7 @@ const createVariantsWithTransition = (
         ...(hasTransition(baseVariants.visible)
           ? baseVariants.visible.transition
           : {}),
-        ...mainTransition,
+        ...transition,
       },
     },
     exit: {
@@ -199,7 +197,7 @@ const createVariantsWithTransition = (
         ...(hasTransition(baseVariants.exit)
           ? baseVariants.exit.transition
           : {}),
-        ...mainTransition,
+        ...transition,
         staggerDirection: -1,
       },
     },
@@ -237,12 +235,12 @@ export function TextEffect({
 
   const customStagger = hasTransition(variants?.container?.visible ?? {})
     ? (variants?.container?.visible as TargetAndTransition).transition
-        ?.staggerChildren
+      ?.staggerChildren
     : undefined;
 
   const customDelay = hasTransition(variants?.container?.visible ?? {})
     ? (variants?.container?.visible as TargetAndTransition).transition
-        ?.delayChildren
+      ?.delayChildren
     : undefined;
 
   const computedVariants = {
@@ -252,10 +250,6 @@ export function TextEffect({
         staggerChildren: customStagger ?? stagger,
         delayChildren: customDelay ?? delay,
         ...containerTransition,
-        exit: {
-          staggerChildren: customStagger ?? stagger,
-          staggerDirection: -1,
-        },
       }
     ),
     item: createVariantsWithTransition(variants?.item || baseVariants.item, {
