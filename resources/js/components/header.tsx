@@ -3,8 +3,11 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
+import { type SharedData } from '@/types';
+import { dashboard, login, register } from '@/routes';
+import { spawn } from 'child_process';
 
 const menuItems = [
     { name: 'Home', href: '#link' },
@@ -16,6 +19,7 @@ const menuItems = [
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false);
     const [isScrolled, setIsScrolled] = React.useState(false);
+    const { auth } = usePage<SharedData>().props;
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -92,25 +96,46 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}
-                                >
-                                    <Link href="#">
-                                        <span>Login</span>
-                                    </Link>
-                                </Button>
-                                <Button
-                                    asChild
-                                    size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}
-                                >
-                                    <Link href="#">
-                                        <span>Sign Up</span>
-                                    </Link>
-                                </Button>
+                                {auth.user ? (
+                                    <Button
+                                        asChild
+                                        size="sm"
+                                        className={cn(
+                                            isScrolled && 'lg:hidden',
+                                        )}
+                                    >
+                                        <Link href={dashboard()}>
+                                            <span>Dashboard</span>
+                                        </Link>
+                                    </Button>
+                                ) : (
+                                    <>
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            size="sm"
+                                            className={cn(
+                                                isScrolled && 'lg:hidden',
+                                            )}
+                                        >
+                                            <Link href={login()}>
+                                                <span>Login</span>
+                                            </Link>
+                                        </Button>
+                                        <Button
+                                            asChild
+                                            size="sm"
+                                            className={cn(
+                                                isScrolled && 'lg:hidden',
+                                            )}
+                                        >
+                                            <Link href={register()}>
+                                                <span>Sign Up</span>
+                                            </Link>
+                                        </Button>
+                                    </>
+                                )}
+
                                 <Button
                                     asChild
                                     size="sm"
@@ -120,8 +145,12 @@ export const HeroHeader = () => {
                                             : 'hidden',
                                     )}
                                 >
-                                    <Link href="#">
-                                        <span>Get Started</span>
+                                    <Link href={register()}>
+                                        {auth.user ? (
+                                            <span>Dashboard</span>
+                                        ) : (
+                                            <span>Get Started</span>
+                                        )}
                                     </Link>
                                 </Button>
                             </div>
