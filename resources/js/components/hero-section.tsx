@@ -21,27 +21,25 @@ export default function HeroSection() {
                 <section>
                     <div className="relative pt-24 md:pt-36">
                         <AnimatedGroup
-                            variants={{
-                                container: {
-                                    visible: {
-                                        transition: {
-                                            delayChildren: 1,
-                                        },
+                            containerVariants={{
+                                visible: {
+                                    transition: {
+                                        delayChildren: 1,
                                     },
                                 },
-                                item: {
-                                    hidden: {
-                                        opacity: 0,
-                                        y: 20,
-                                    },
-                                    visible: {
-                                        opacity: 1,
-                                        y: 0,
-                                        transition: {
-                                            type: 'spring',
-                                            bounce: 0.3,
-                                            duration: 2,
-                                        },
+                            }}
+                            itemVariants={{
+                                hidden: {
+                                    opacity: 0,
+                                    y: 20,
+                                },
+                                visible: {
+                                    opacity: 1,
+                                    y: 0,
+                                    transition: {
+                                        type: 'spring',
+                                        bounce: 0.3,
+                                        duration: 2,
                                     },
                                 },
                             }}
@@ -64,17 +62,15 @@ export default function HeroSection() {
                         <div className="mx-auto max-w-7xl px-6">
                             <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
                                 <AnimatedGroup
-                                    variants={{
-                                        item: {
-                                            hidden: { opacity: 0, y: 20 },
-                                            visible: {
-                                                opacity: 1,
-                                                y: 0,
-                                                transition: {
-                                                    type: 'spring',
-                                                    bounce: 0.3,
-                                                    duration: 1.5,
-                                                },
+                                    itemVariants={{
+                                        hidden: { opacity: 0, y: 20 },
+                                        visible: {
+                                            opacity: 1,
+                                            y: 0,
+                                            transition: {
+                                                type: 'spring',
+                                                bounce: 0.3,
+                                                duration: 1.5,
                                             },
                                         },
                                     }}
@@ -121,21 +117,29 @@ export default function HeroSection() {
                                 </TextEffect>
 
                                 <AnimatedGroup
-                                    className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row"
-                                    variants={{
-                                        item: {
-                                            hidden: { opacity: 0, y: 20 },
-                                            visible: {
-                                                opacity: 1,
-                                                y: 0,
-                                                transition: {
-                                                    type: 'spring',
-                                                    bounce: 0.3,
-                                                    duration: 1.5,
-                                                },
+                                    containerVariants={{
+                                        visible: {
+                                            transition: {
+                                                delayChildren: 1,
                                             },
                                         },
                                     }}
+                                    itemVariants={{
+                                        hidden: {
+                                            opacity: 0,
+                                            y: 20,
+                                        },
+                                        visible: {
+                                            opacity: 1,
+                                            y: 0,
+                                            transition: {
+                                                type: 'spring',
+                                                bounce: 0.3,
+                                                duration: 2,
+                                            },
+                                        },
+                                    }}
+                                    className="absolute inset-0 top-56 -z-20 mask-b-from-35% mask-b-to-90% lg:top-32"
                                 >
                                     <div
                                         key={1}
