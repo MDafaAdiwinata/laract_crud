@@ -52,7 +52,7 @@ export default function Edit({ product }: Props) {
                 _method: 'POST',
             });
         }
-    }, [product]);
+    }, [product, setData]);
 
     const handleUpdate = (e: React.FormEvent) => {
         e.preventDefault();

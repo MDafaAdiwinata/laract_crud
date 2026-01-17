@@ -1,31 +1,16 @@
 'use client';
-import { ReactNode } from 'react';
-import { motion, Variants } from 'motion/react';
+
 import React from 'react';
+import { motion, Variants } from 'motion/react';
 import { cn } from '@/lib/utils';
 
-export type PresetType =
-  | 'fade'
-  | 'slide'
-  | 'scale'
-  | 'blur'
-  | 'blur-slide'
-  | 'zoom'
-  | 'flip'
-  | 'bounce'
-  | 'rotate'
-  | 'swing';
-
-export type AnimatedGroupProps = {
-  children: ReactNode;
+type AnimatedGroupProps = {
+  children: React.ReactNode;
   className?: string;
   variants?: {
     container?: Variants;
     item?: Variants;
   };
-  preset?: PresetType;
-  as?: React.ElementType;
-  asChild?: React.ElementType;
 };
 
 const defaultContainerVariants: Variants = {
@@ -59,15 +44,11 @@ export function AnimatedGroup({
       variants={containerVariants}
       className={cn(className)}
     >
-      {React.Children.map(children, (child, index) =>
-        React.isValidElement(child) ? (
-          <motion.div key={index} variants={itemVariants}>
-            {child}
-          </motion.div>
-        ) : (
-          child
-        )
-      )}
+      {React.Children.map(children, (child, index) => (
+        <motion.div key={index} variants={itemVariants}>
+          {child}
+        </motion.div>
+      ))}
     </motion.div>
   );
 }
